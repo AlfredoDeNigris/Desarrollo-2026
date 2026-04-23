@@ -42,7 +42,7 @@ public class Fecha {
     
     //Propios de tipo
     public boolean esBisiesto() {
-        return ((this.año % 4 == 0) && (this.año % 100 != 0) && (0 == this.año % 400));
+        return (año % 4 == 0 && año % 100 != 0) || (año % 400 == 0);
     }
     
     public boolean esFechaAnterior(Fecha otraFecha) {
@@ -53,7 +53,7 @@ public class Fecha {
         else if (this.año >= otraFecha.getAño() && this.mes > otraFecha.getMes())
             respuesta = true;
         else 
-         if(this.año >= otraFecha.getAño() && this.mes >= otraFecha.getMes() && this.dia > otraFecha.getAño())   
+         if(this.año >= otraFecha.getAño() && this.mes >= otraFecha.getMes() && this.dia > otraFecha.getDia())   
              respuesta = true;
         return respuesta;
     }
@@ -67,11 +67,25 @@ public class Fecha {
         return dias;
     }
     
-    public Fecha calculaFecha(Fecha unaFecha, int dias) {
-        
-        
-        
-        return new Fecha(1, 2,3);
+    public Fecha calculaFecha(Fecha unaFecha, int diasASumar) {
+        int unaFechaDia = unaFecha.getDia();
+        int unaFechaMes = unaFecha.getMes();
+        int unaFechaAño = unaFecha.getAño();
+
+        for (int i = 0; i < diasASumar; i++) {
+            unaFechaDia++;
+
+            if (unaFechaDia > getDiasMes(unaFechaMes)) {
+                unaFechaDia = 1;
+                unaFechaMes++;
+
+                if (unaFechaMes > 12) {
+                    unaFechaMes = 1;
+                    unaFechaAño++;
+                }
+            }
+        }
+
+        return new Fecha(unaFechaDia, unaFechaMes, unaFechaAño);
     }
-    
 }
