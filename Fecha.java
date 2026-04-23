@@ -25,18 +25,18 @@ public class Fecha {
         return this.año;
     }
     
-    public int getDiasMes(int mes){
+    public int getDiasMes(int mes, int año){
         int dias;
+
         if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
             dias = 31;
-        else if ( mes == 4 || mes == 6 || mes == 9 || mes == 11) 
+        else if (mes == 4 || mes == 6 || mes == 9 || mes == 11)
             dias = 30;
-        else if ( mes == 2 && esBisiesto())
+        else if (mes == 2 && ((año % 4 == 0 && año % 100 != 0) || (año % 400 == 0)))
             dias = 29;
         else
             dias = 28;
-        
-        
+
         return dias;
     }
     
@@ -60,10 +60,13 @@ public class Fecha {
     
     public int diasTranscurridos(Fecha unaFecha){
         int dias = 0;
-        for (int i = 0; i <= unaFecha.getMes(); i++) {
-            dias += getDiasMes(i);
+
+        for (int i = 1; i < unaFecha.getMes(); i++) {
+            dias += getDiasMes(i, unaFecha.getAño());
         }
+
         dias += unaFecha.getDia();
+
         return dias;
     }
     
@@ -75,7 +78,7 @@ public class Fecha {
         for (int i = 0; i < diasASumar; i++) {
             unaFechaDia++;
 
-            if (unaFechaDia > getDiasMes(unaFechaMes)) {
+            if (unaFechaDia > getDiasMes(unaFechaMes, unaFechaAño)) {
                 unaFechaDia = 1;
                 unaFechaMes++;
 
@@ -85,7 +88,6 @@ public class Fecha {
                 }
             }
         }
-
         return new Fecha(unaFechaDia, unaFechaMes, unaFechaAño);
     }
 }
